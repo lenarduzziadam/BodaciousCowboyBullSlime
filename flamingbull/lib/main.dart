@@ -1,9 +1,11 @@
-import 'package:flame/game.dart';
-import 'package:flamingbull/flamebull.dart';
+import 'package:flame/flame.dart';
+import 'package:flamingbull/game_app.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  final game = FlameBull();
-  runApp(GameWidget(game: game));
+  WidgetsFlutterBinding.ensureInitialized();
+  Flame.device.fullScreen();
+  Flame.device.setPortrait();
+  runApp(const GameApp());
 }
 
