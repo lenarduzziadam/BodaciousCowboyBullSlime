@@ -15,13 +15,13 @@ class FlameBull extends FlameGame {
     super.onLoad();
 
     world.add(Player(
-      position: Vector2(-gameWidth / 4, 0),
+      position: Vector2(-(gameWidth / 4), 0),
       radius: gameWidth / 4,
       color: Colors.red,
     ));
 
     world.add(Player(
-      position: Vector2(gameWidth / 4, 100),
+      position: Vector2((gameWidth / 4), 0),
       radius: gameWidth / 4,
       color: Colors.green,
     ));
