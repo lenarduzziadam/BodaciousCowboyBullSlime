@@ -1,15 +1,15 @@
-import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-class Player extends CircleComponent {
-  Player({required super.position,
-          required double radius,
-          Color color = Colors.white,
-        }) : super(
-            anchor: Anchor.center, 
-            radius: radius, 
-            paint: Paint()
-            ..color = color 
-            ..style = PaintingStyle.fill,
-          );
+import 'package:flame/components.dart';
+import 'package:flamingbull/constants.dart';
+
+class Player extends SpriteComponent {
+
+@override
+  FutureOr<void> onLoad() async {
+    sprite = await Sprite.load('chicken.png');
+    size = Vector2.all(100);
+    position = Vector2(0, -(gameHeight / 2) + (size.y / 2));
+    anchor = Anchor.center;
+  }
 }
