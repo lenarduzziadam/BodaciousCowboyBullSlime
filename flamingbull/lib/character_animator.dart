@@ -5,7 +5,7 @@ import 'package:flame/flame.dart';
 class CharacterAnimator {
   // Standing right (second column of row 1)
   SpriteAnimation standRight() => SpriteAnimation.spriteList([
-    spriteSheet.getSprite(1, 1)
+    spriteSheet.getSprite(0, 1)
   ], stepTime: 0.2);
 
   // Standing left (second column of row 2)
