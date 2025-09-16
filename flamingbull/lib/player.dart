@@ -5,7 +5,7 @@ import 'character_animator.dart';
 
 class Player extends SpriteAnimationComponent {
   late CharacterAnimator animator;
-  String currentState = 'idleBack';
+  String currentState = 'idleFront';
   double idleTimer = 0.0;
   double movementTimer = 0.0;
   final double idleThreshold = 5.0; // seconds
@@ -14,9 +14,9 @@ class Player extends SpriteAnimationComponent {
 
   @override
   FutureOr<void> onLoad() async {
-    animator = await CharacterAnimator.load('chicken.png');
-    animation = animator.idleBack();
-    size = Vector2(232, 232);
+  animator = await CharacterAnimator.load('chicken.png');
+  animation = animator.idleFront();
+    size = Vector2(200, 200);
     position = Vector2(0, -(gameHeight / 2) + (size.y / 2));
     anchor = Anchor.center;
   }
@@ -56,12 +56,6 @@ class Player extends SpriteAnimationComponent {
         animation = animator.standLeft();
         currentState = 'standLeft';
       }
-      if (idleTimer >= idleThreshold && currentState != 'idleFront') {
-        animation = animator.idleFront();
-        currentState = 'idleFront';
-      }
-    } else if (currentState == 'idleBack') {
-      idleTimer += dt;
       if (idleTimer >= idleThreshold && currentState != 'idleFront') {
         animation = animator.idleFront();
         currentState = 'idleFront';

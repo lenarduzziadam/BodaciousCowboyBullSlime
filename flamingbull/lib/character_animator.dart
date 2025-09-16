@@ -8,25 +8,24 @@ class CharacterAnimator {
     spriteSheet.getSprite(1, 1)
   ], stepTime: 0.2);
 
-  // Standing left (second column of row 3)
+  // Standing left (second column of row 2)
   SpriteAnimation standLeft() => SpriteAnimation.spriteList([
-    spriteSheet.getSprite(3, 1)
+    spriteSheet.getSprite(2, 1)
   ], stepTime: 0.2);
   final SpriteSheet spriteSheet;
 
   CharacterAnimator(this.spriteSheet);
 
-  // Idle animation (back to screen)
-  SpriteAnimation idleBack() => spriteSheet.createAnimation(row: 0, stepTime: 0.15, from: 0, to: 2);
+  // Removed idleBack animation (no upward-facing row)
 
-  // Move right animation
-  SpriteAnimation moveRight() => spriteSheet.createAnimation(row: 1, stepTime: 0.12, from: 0, to: 2);
+  // Move right animation (row 0)
+  SpriteAnimation moveRight() => spriteSheet.createAnimation(row: 0, stepTime: 0.12, from: 0, to: 2);
 
-  // Idle animation (facing camera)
-  SpriteAnimation idleFront() => spriteSheet.createAnimation(row: 2, stepTime: 0.15, from: 0, to: 2);
+  // Idle animation (facing camera, row 1)
+  SpriteAnimation idleFront() => spriteSheet.createAnimation(row: 1, stepTime: 0.15, from: 0, to: 2);
 
-  // Move left animation
-  SpriteAnimation moveLeft() => spriteSheet.createAnimation(row: 3, stepTime: 0.12, from: 0, to: 2);
+  // Move left animation (row 2)
+  SpriteAnimation moveLeft() => spriteSheet.createAnimation(row: 2, stepTime: 0.12, from: 0, to: 2);
 
   // Add more as needed
 
