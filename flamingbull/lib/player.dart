@@ -12,6 +12,12 @@ class Player extends SpriteAnimationComponent {
   final double movementThreshold = 0.02; // seconds
   String lastDirection = 'right'; // Track last direction for idle
 
+  // Dance idle animation state
+  int idleDanceIndex = 0;
+  List<String> idleDanceStates = ['idleFront', 'standRight', 'standLeft'];
+  double idleDanceTimer = 0.0;
+  double idleDanceDuration = 0.0;
+
   @override
   FutureOr<void> onLoad() async {
   animator = await CharacterAnimator.load('chicken.png');
@@ -42,11 +48,13 @@ class Player extends SpriteAnimationComponent {
         currentState = 'moveLeft';
       }
       idleTimer = 0.0;
+      idleDanceTimer = 0.0;
+      idleDanceIndex = 0;
       return;
     }
 
     // If not moving, increment idle timer
-    if (currentState == 'moveLeft' || currentState == 'moveRight' || currentState == 'standLeft' || currentState == 'standRight') {
+    if (currentState == 'moveLeft' || currentState == 'moveRight' || currentState == 'standLeft' || currentState == 'standRight' || currentState == 'idleFront') {
       idleTimer += dt;
       // Switch to standing frame after movement timer expires
       if (currentState == 'moveRight' && lastDirection == 'right' && currentState != 'standRight') {
@@ -56,12 +64,50 @@ class Player extends SpriteAnimationComponent {
         animation = animator.standLeft();
         currentState = 'standLeft';
       }
-      if (idleTimer >= idleThreshold && currentState != 'idleFront') {
-        animation = animator.idleFront();
-        currentState = 'idleFront';
+
+      // Start dance idle animation after idleThreshold
+      if (idleTimer >= idleThreshold) {
+        idleDanceTimer += dt;
+        if (idleDanceDuration == 0.0) {
+          // Pick a random duration for this dance frame (0.4-1.0s)
+          idleDanceDuration = 0.4 + (0.6 * (DateTime.now().millisecondsSinceEpoch % 1000) / 1000.0);
+        }
+        if (idleDanceTimer >= idleDanceDuration) {
+          // Cycle to next dance state
+          idleDanceIndex = (idleDanceIndex + 1) % idleDanceStates.length;
+          idleDanceTimer = 0.0;
+          idleDanceDuration = 0.0;
+          // Set animation based on dance state
+          switch (idleDanceStates[idleDanceIndex]) {
+            case 'idleFront':
+              animation = animator.idleFront();
+              currentState = 'idleFront';
+              break;
+            case 'standRight':
+              animation = animator.standRight();
+              currentState = 'standRight';
+              break;
+            case 'standLeft':
+              animation = animator.standLeft();
+              currentState = 'standLeft';
+              break;
+          }
+        }
+      } else {
+        // If not yet dancing, reset dance state
+        idleDanceTimer = 0.0;
+        idleDanceIndex = 0;
+        idleDanceDuration = 0.0;
+        if (idleTimer >= idleThreshold && currentState != 'idleFront') {
+          animation = animator.idleFront();
+          currentState = 'idleFront';
+        }
       }
     } else {
       idleTimer = 0.0;
+      idleDanceTimer = 0.0;
+      idleDanceIndex = 0;
+      idleDanceDuration = 0.0;
     }
   }
 
