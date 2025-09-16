@@ -6,10 +6,13 @@ import 'package:flamingbull/player.dart';
 
 
 class BullWorld extends World with HasGameRef<FlameBull> {
+  
+  late final Player player;
+  
   @override
   FutureOr onLoad() {
     super.onLoad();
-
-    add(Player());
+    player = Player();
+    add(player);
   }
 }

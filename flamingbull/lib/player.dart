@@ -25,4 +25,16 @@ class Player extends SpriteComponent {
 
     position.y = newY;
   }
+
+  void move(double deltaX) {
+    double newX = position.x + deltaX;
+    if (newX < -(gameWidth / 2) + (size.x / 2)) {
+      newX = -(gameWidth / 2) + (size.x / 2);
+    } else if (newX > (gameWidth / 2) - (size.x / 2)) {
+      newX = (gameWidth / 2) - (size.x / 2);
+    }
+    position.x = newX;
+  }
+
+
 }
