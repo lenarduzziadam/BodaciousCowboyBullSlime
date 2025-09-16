@@ -9,7 +9,7 @@ class Player extends SpriteAnimationComponent {
   double idleTimer = 0.0;
   double movementTimer = 0.0;
   final double idleThreshold = 5.0; // seconds
-  final double movementThreshold = 1.0; // seconds
+  final double movementThreshold = 0.02; // seconds
   String lastDirection = 'right'; // Track last direction for idle
 
   @override
