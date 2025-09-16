@@ -6,8 +6,11 @@ import 'package:flame/game.dart';
 import 'package:flamingbull/constants.dart';
 import 'package:flamingbull/game/bull_world.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show LogicalKeyboardKey, KeyEvent;
 
-class FlameBull extends FlameGame<BullWorld> with HorizontalDragDetector{
+class FlameBull extends FlameGame<BullWorld> with HorizontalDragDetector, KeyboardEvents {
+  Set<LogicalKeyboardKey> _keysPressed = {};
+
   FlameBull() 
     : super(
       world: BullWorld(),
@@ -28,4 +31,21 @@ class FlameBull extends FlameGame<BullWorld> with HorizontalDragDetector{
     world.player.move(info.delta.global.x);
   }
 
+  @override
+  KeyEventResult onKeyEvent(
+      KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    _keysPressed = keysPressed;
+    return KeyEventResult.handled;
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (_keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
+      world.player.move(-moveSpeed * dt);
+    }
+    if (_keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
+      world.player.move(moveSpeed * dt);
+    }
+  }
 }
