@@ -7,7 +7,9 @@ class Player extends SpriteAnimationComponent {
   late CharacterAnimator animator;
   String currentState = 'idleBack';
   double idleTimer = 0.0;
-  final double idleThreshold = 7.0; // seconds
+  double movementTimer = 0.0;
+  final double idleThreshold = 5.0; // seconds
+  final double movementThreshold = 1.0; // seconds
   String lastDirection = 'right'; // Track last direction for idle
 
   @override
@@ -28,17 +30,33 @@ class Player extends SpriteAnimationComponent {
     }
     position.y = newY;
 
-    // If not moving left or right, increment idle timer
-    if (currentState == 'moveLeft' || currentState == 'moveRight') {
+    // Movement timer logic
+    if (movementTimer > 0) {
+      movementTimer -= dt;
+      // Continue movement animation for 1 second after key release
+      if (lastDirection == 'right' && currentState != 'moveRight') {
+        animation = animator.moveRight();
+        currentState = 'moveRight';
+      } else if (lastDirection == 'left' && currentState != 'moveLeft') {
+        animation = animator.moveLeft();
+        currentState = 'moveLeft';
+      }
+      idleTimer = 0.0;
+      return;
+    }
+
+    // If not moving, increment idle timer
+    if (currentState == 'moveLeft' || currentState == 'moveRight' || currentState == 'standLeft' || currentState == 'standRight') {
       idleTimer += dt;
-      if (idleTimer < idleThreshold) {
-        // Show standing frame for direction
-        if (currentState == 'moveRight' && animation != animator.standRight()) {
-          animation = animator.standRight();
-        } else if (currentState == 'moveLeft' && animation != animator.standLeft()) {
-          animation = animator.standLeft();
-        }
-      } else if (idleTimer >= idleThreshold && currentState != 'idleFront') {
+      // Switch to standing frame after movement timer expires
+      if (currentState == 'moveRight' && lastDirection == 'right' && currentState != 'standRight') {
+        animation = animator.standRight();
+        currentState = 'standRight';
+      } else if (currentState == 'moveLeft' && lastDirection == 'left' && currentState != 'standLeft') {
+        animation = animator.standLeft();
+        currentState = 'standLeft';
+      }
+      if (idleTimer >= idleThreshold && currentState != 'idleFront') {
         animation = animator.idleFront();
         currentState = 'idleFront';
       }
@@ -68,6 +86,7 @@ class Player extends SpriteAnimationComponent {
         lastDirection = 'right';
       }
       idleTimer = 0.0;
+      movementTimer = movementThreshold;
     } else if (deltaX < 0) {
       if (currentState != 'moveLeft') {
         animation = animator.moveLeft();
@@ -75,17 +94,9 @@ class Player extends SpriteAnimationComponent {
         lastDirection = 'left';
       }
       idleTimer = 0.0;
-    } else {
-      // No movement, keep standing frame for direction
-      if (lastDirection == 'right' && animation != animator.standRight()) {
-        animation = animator.standRight();
-        currentState = 'moveRight';
-      } else if (lastDirection == 'left' && animation != animator.standLeft()) {
-        animation = animator.standLeft();
-        currentState = 'moveLeft';
-      }
-      // Don't reset idleTimer here; let update handle it
+      movementTimer = movementThreshold;
     }
+    // If deltaX == 0, don't change animation here; let update handle idle/standing/movement timer
     position.x = newX;
   }
 }
