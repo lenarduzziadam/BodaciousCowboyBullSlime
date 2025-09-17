@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flamingbull/constants.dart';
 import 'character_animator.dart';
+import 'bubble_projectile.dart';
 
 class Player extends SpriteAnimationComponent {
   late CharacterAnimator animator;
@@ -25,6 +26,13 @@ class Player extends SpriteAnimationComponent {
     size = Vector2(200, 200);
     position = Vector2(0, -(gameHeight / 2) + (size.y / 2));
     anchor = Anchor.center;
+
+    // Add bubble projectile above chicken
+    final bubble = BubbleProjectile(
+      position: Vector2(size.x / 2 - 24, -24), // Centered horizontally, above chicken
+      radius: 24,
+    );
+    add(bubble);
   }
 
   @override
