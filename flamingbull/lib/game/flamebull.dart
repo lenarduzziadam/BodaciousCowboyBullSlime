@@ -28,7 +28,7 @@ class FlameBull extends FlameGame<BullWorld> with HorizontalDragDetector, Keyboa
     await super.onLoad();
     // Position launcher near bottom center, above chicken
     launcher = BubbleLauncher(
-      position: Vector2(gameWidth / 2, bubbleLauncherY),
+      position: Vector2(gameWidth / 2, bubbleLauncherY)
     );
     add(launcher);
   }
