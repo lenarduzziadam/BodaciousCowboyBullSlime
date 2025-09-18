@@ -5,6 +5,7 @@ import 'character_animator.dart';
 import 'bubble_projectile.dart';
 
 class Player extends SpriteAnimationComponent {
+  BubbleProjectile? bubble;
   late CharacterAnimator animator;
   String currentState = 'idleFront';
   double idleTimer = 0.0;
@@ -23,16 +24,17 @@ class Player extends SpriteAnimationComponent {
   FutureOr<void> onLoad() async {
   animator = await CharacterAnimator.load('chicken.png');
   animation = animator.idleFront();
-    size = Vector2(200, 200);
-    position = Vector2(0, -(gameHeight / 2) + (size.y / 2));
+  size = Vector2(200, 200);
+  position = Vector2(0, (gameHeight / 2) - (size.y / 2));
     anchor = Anchor.center;
 
-    // Add bubble projectile above chicken
-    final bubble = BubbleProjectile(
-      position: Vector2(size.x / 2 - 24, -24), // Centered horizontally, above chicken
+    // Create persistent bubble above chicken's head
+    bubble = BubbleProjectile(
+      position: Vector2(0, -size.y / 2 - 24), // Centered, above head
       radius: 24,
     );
-    add(bubble);
+    add(bubble!);
+
   }
 
   @override
@@ -43,6 +45,11 @@ class Player extends SpriteAnimationComponent {
       newY = (gameHeight / 2) - (size.y / 2);
     }
     position.y = newY;
+
+    // Keep bubble above chicken until launched
+    if (bubble != null && !bubble!.released) {
+      bubble!.position = Vector2(0, -size.y / 2 - 24);
+    }
 
     // Movement timer logic
     if (movementTimer > 0) {
