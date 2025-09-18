@@ -10,6 +10,7 @@
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:flamingbull/constants.dart';
 
 /// BubbleLauncher draws an arrow and a bubble, and handles aiming/launching logic.
 /// - angle: direction the arrow points (radians)
@@ -20,9 +21,9 @@ import 'package:flutter/material.dart';
 class BubbleLauncher extends PositionComponent {
   double angle = -pi / 2; // Default: straight up
   bool launched = false;
-  double arrowLength = 64;
-  double arrowWidth = 16;
-  double bubbleRadius = 16;
+  double arrowLength = bubbleLauncherArrowLength;
+  double arrowWidth = bubbleLauncherArrowWidth;
+  double bubbleRadius = bubbleLauncherBubbleRadius;
 
   BubbleLauncher({Vector2? position}) {
     this.position = position ?? Vector2.zero();

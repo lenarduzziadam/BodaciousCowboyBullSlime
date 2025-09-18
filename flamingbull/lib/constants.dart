@@ -1,3 +1,8 @@
+// BubbleLauncher config
+const double bubbleLauncherY = gameHeight - 160.0; // Position from top
+const double bubbleLauncherArrowLength = 96.0;
+const double bubbleLauncherArrowWidth = 24.0;
+const double bubbleLauncherBubbleRadius = 24.0;
 
 const gameWidth = 1080.0;
 const gameHeight = 1920.0;
