@@ -5,13 +5,13 @@ import 'package:flame/flame.dart';
 class CharacterAnimator {
   // Standing right (second column of row 1)
   SpriteAnimation standRight() => SpriteAnimation.spriteList([
-    spriteSheet.getSprite(0, 1)
+    spriteSheet.getSprite(0, 1) //grabs the sprite at column 0, row 1 
   ], stepTime: 0.2);
 
   // Standing left (second column of row 2)
   SpriteAnimation standLeft() => SpriteAnimation.spriteList([
-    spriteSheet.getSprite(2, 1)
-  ], stepTime: 0.2);
+    spriteSheet.getSprite(2, 1) //grabs the sprite at column 2, row 1
+  ], stepTime: 0.2); //stepTime is how long each frame is shown (20 ms in this case)
   final SpriteSheet spriteSheet;
 
   CharacterAnimator(this.spriteSheet);
