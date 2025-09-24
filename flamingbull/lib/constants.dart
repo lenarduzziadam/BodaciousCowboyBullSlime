@@ -13,3 +13,6 @@ const playerSize = (64, 64);
 // Bubble projectile logic
 const double bubbleGravity = 50.0; // Gravity affecting bubble (lower for more bounce)
 const double bubbleSpeed = 300.0;   // Initial launch speed of bubble
+
+
+// Player idle/dance logic

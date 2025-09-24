@@ -1,11 +1,11 @@
-/// BubbleLauncher
-///
+/// flamingbull/lib/bubble_launcher.dart
 /// This component represents a bubble launcher, similar to the arrow launcher in Bust-a-Move.
 /// It is positioned near the bottom center of the screen, independently from the chicken.
 /// The launcher consists of an arrow and a bubble at its tip.
 /// The player can rotate the launcher using keyboard (left/right arrows) or mouse drag.
 /// When the player launches (space bar or mouse click), the bubble is fired in the direction the arrow is pointing.
 /// After launch, the launcher disappears and control switches to the chicken.
+library;
 
 import 'dart:math';
 import 'package:flame/components.dart';

@@ -5,7 +5,6 @@ import 'package:flamingbull/constants.dart';
 import 'character_animator.dart';
 
 class Player extends SpriteAnimationComponent {
-  // BubbleProjectile removed
   late CharacterAnimator animator;
   String currentState = 'idleFront';
   double idleTimer = 0.0;
@@ -16,19 +15,18 @@ class Player extends SpriteAnimationComponent {
 
   @override
   FutureOr<void> onLoad() async {
-  animator = await CharacterAnimator.load('chicken.png');
-  animation = animator.idleFront();
-  size = Vector2(200, 200);
-  position = Vector2(0, (gameHeight / 2) - (size.y / 2));
+    animator = await CharacterAnimator.load('chicken.png');
+    animation = animator.idleFront();
+    size = Vector2(200, 200);
+    position = Vector2(0, (gameHeight / 2) - (size.y / 2));
     anchor = Anchor.center;
-
-    // Bubble logic removed
 
   }
 
   @override
   void update(double dt) {
     super.update(dt);
+
     double newY = position.y + (dt * 200);
     if (newY > (gameHeight / 2) - (size.y / 2)) {
       newY = (gameHeight / 2) - (size.y / 2);
