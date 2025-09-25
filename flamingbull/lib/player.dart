@@ -61,7 +61,7 @@ class Player extends SpriteAnimationComponent {
     }
 
     // If not moving, increment idle timer
-    if (currentState == 'moveLeft' || currentState == 'moveRight' || currentState == 'standLeft' || currentState == 'standRight') {
+    if (currentState == 'moveLeft' || currentState == 'moveRight' || currentState == 'standLeft' || currentState == 'standRight' || currentState == 'idleFront') {
       idleTimer += dt;
       // Switch to standing frame after movement timer expires
       if (currentState == 'moveRight' && lastDirection == 'right' && currentState != 'standRight') {
