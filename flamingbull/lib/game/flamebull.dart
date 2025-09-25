@@ -1,4 +1,4 @@
-import 'package:flutter/services.dart' show LogicalKeyboardKey;
+
 import '../bubble_launcher.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -43,10 +43,10 @@ class FlameBull extends FlameGame<BullWorld> with HorizontalDragDetector, Keyboa
     if (launcherActive) {
       // Launcher controls
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-        launcher.rotate(-0.05); // Adjust rotation step as needed
+        launcher.rotate(-0.2); // Adjust rotation step as needed
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-        launcher.rotate(0.05);
+        launcher.rotate(0.2);
       }
       if (event.logicalKey == LogicalKeyboardKey.space && !launcher.launched) {
         launcher.launch();

@@ -12,6 +12,16 @@ class Player extends SpriteAnimationComponent {
   final double idleThreshold = 5.0; // seconds
   final double movementThreshold = 0.02; // seconds
   String lastDirection = 'right'; // Track last direction for idle
+  final List<String> danceSequence = [
+    'standLeft',
+    'moveRight',
+    'standRight',
+    'moveLeft',
+    'idleFront',
+  ];
+  int danceIndex = 0;
+  double danceFrameTimer = 0.0;
+  bool isDancing = false;
 
   @override
   FutureOr<void> onLoad() async {
@@ -61,10 +71,28 @@ class Player extends SpriteAnimationComponent {
         animation = animator.standLeft();
         currentState = 'standLeft';
       }
-      if (idleTimer >= idleThreshold && currentState != 'idleFront') {
-        animation = animator.idleFront();
-        currentState = 'idleFront';
+      if (idleTimer >= idleThreshold && !isDancing) {
+        isDancing = true;
+        danceIndex = 0;
+        danceFrameTimer = 0.0;
       }
+      if (isDancing) {
+        danceFrameTimer += dt;
+        if (danceFrameTimer >= 0.7) { // Change frame every 0.5 seconds
+          danceFrameTimer = 0.0;
+          animation = switch (danceSequence[danceIndex]) {
+            'standLeft' => animator.standLeft(),
+            'moveRight' => animator.moveRight(),
+            'standRight' => animator.standRight(),
+            'moveLeft' => animator.moveLeft(),
+            'idleFront' => animator.idleFront(),
+            _ => animation,
+          };
+          currentState = danceSequence[danceIndex];
+          danceIndex = (danceIndex + 1) % danceSequence.length;
+        }
+      }
+
     } else {
       idleTimer = 0.0;
     }
@@ -80,6 +108,9 @@ class Player extends SpriteAnimationComponent {
     // Switch animation based on direction
     if (deltaX > 0) {
       if (currentState != 'moveRight') {
+        isDancing = false;
+        danceIndex = 0;
+        danceFrameTimer = 0.0;
         animation = animator.moveRight();
         currentState = 'moveRight';
         lastDirection = 'right';
@@ -88,6 +119,9 @@ class Player extends SpriteAnimationComponent {
       movementTimer = movementThreshold;
     } else if (deltaX < 0) {
       if (currentState != 'moveLeft') {
+        isDancing = false;
+        danceIndex = 0;
+        danceFrameTimer = 0.0;
         animation = animator.moveLeft();
         currentState = 'moveLeft';
         lastDirection = 'left';
