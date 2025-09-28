@@ -8,6 +8,7 @@
 library;
 
 import 'dart:math';
+import 'dart:math' as Math;
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flamingbull/constants.dart';
@@ -19,6 +20,7 @@ import 'package:flamingbull/constants.dart';
 /// - bubbleRadius: size of bubble
 
 class BubbleLauncher extends PositionComponent {
+  @override
   double angle = -pi / 2; // Default: straight up
   bool launched = false;
   double arrowLength = bubbleLauncherArrowLength;
@@ -27,7 +29,7 @@ class BubbleLauncher extends PositionComponent {
 
   BubbleLauncher({Vector2? position}) {
     this.position = position ?? Vector2.zero();
-    this.size = Vector2(arrowWidth, arrowLength + bubbleRadius * 2);
+    size = Vector2(arrowWidth, arrowLength + bubbleRadius * 2);
     anchor = Anchor.center;
   }
 
@@ -64,5 +66,14 @@ class BubbleLauncher extends PositionComponent {
       size.y - bubbleRadius * 2 + (arrowLength + bubbleRadius) * sin(angle),
     );
     canvas.drawCircle(bubbleCenter, bubbleRadius, bubblePaint);
+  }
+
+  /// Returns the tip position of the launcher based on its current position and angle.
+  Vector2 getTipPosition() {
+    // Adjust the tipOffset value as needed to match your launcher graphic
+    const double tipOffset = 40.0;
+    final double tipX = position.x + tipOffset * Math.cos(angle);
+    final double tipY = position.y + tipOffset * Math.sin(angle);
+    return Vector2(tipX, tipY);
   }
 }

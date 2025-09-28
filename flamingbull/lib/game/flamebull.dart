@@ -1,4 +1,6 @@
 
+import 'package:flamingbull/bubble_projectile.dart';
+
 import '../bubble_launcher.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -52,7 +54,13 @@ class FlameBull extends FlameGame<BullWorld> with HorizontalDragDetector, Keyboa
         launcher.launch();
         launcherActive = false;
         remove(launcher);
-        // TODO: Create and launch bubble in direction launcher.angle
+        // When launching the bubble from the launcher:
+        final bubble = BubbleProjectile(
+          position: launcher.getTipPosition(),
+          angle: launcher.angle,
+          chicken: world.player,
+        );
+        add(bubble);
       }
       return KeyEventResult.handled;
     } else {
